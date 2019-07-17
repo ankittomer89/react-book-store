@@ -6,7 +6,12 @@ const rootReducer = (state = {data:[]}, action) => {
                 data: [...state.data,
                 action.payload]
             }
-
+            case 'ADD_BOOK':
+            return {
+                ...state,
+                data: [...state.data,
+                action.payload]
+            }
         default:
             return state;
     }
