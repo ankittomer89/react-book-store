@@ -2,40 +2,40 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import {listBooksAction} from '../action/index'
 
-// function mapStateToProps(state) {
-//     return {
+function mapStateToProps(state) {
+    return {
+        BooksList: state.data
+    };
+}
 
-//     };
-// }
+const mapDispatchToProps = dispatch => ({
+    addToCart: () => dispatch(listBooksAction())
+});
 
-// function mapDispatchToProps(dispatch) {
-//     return {
-
-//     };
-// }
-
+let booksItem;
 class list extends Component {
     constructor(props) {
         super(props);
         this.state = {
             books: [],
         }
+
     }
 
-    async componentDidMount() {
-       var response = await axios.get('http://localhost:8080/books')
-        const toDoItems = response.data
-        this.setState({books: toDoItems}) // or this.setState({toDoItems})
+     componentDidMount() {
+         this.props.addToCart();
        }
 
-    
+
 
     render() {
-        let books = this.state.books.map((book) => {
+        booksItem = this.props.BooksList.map((list) => list.map((book, index) => {
+            console.log(book,index)
             return (
-                <tr kay={book.id}>
+                <tr key={index}>
                     <td data-th="Product">
                         <div className="row">
                             <div className="col-sm-10">
@@ -49,12 +49,12 @@ class list extends Component {
                     <td data-th="Price">{book.category}</td>
                     <td data-th="Price">{book.price} &#x20b9;</td>
                     <td className="actions" data-th="">
-                        <a href="/edit" className="btn btn-primary btn-sm"><FontAwesomeIcon icon={faEdit} /> </a>
-                        <button className="btn btn-danger btn-sm">   <FontAwesomeIcon icon={faTrash} /></button>
+                        <a href="/edit" className="btn btn-primary btn-sm"><FontAwesomeIcon icon={faEdit}/> </a>
+                        <button className="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrash}/></button>
                     </td>
                 </tr>
-            );
-        });
+            )
+        }));
 
         return (
             <div className="container">
@@ -69,7 +69,7 @@ class list extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {books}
+                        {booksItem}
                     </tbody>
                     <tfoot>
                         <tr>
@@ -83,9 +83,9 @@ class list extends Component {
     }
 }
 
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-// )(list);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(list);
 
-export default list;
+//export default list;
