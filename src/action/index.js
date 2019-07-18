@@ -13,8 +13,8 @@ export function listBooksAction() {
 
 export function addBooksAction(book) {
     
-    return dispatch => {
-        axios.post('/books/add', book)
+    return async dispatch => {
+        await axios.post('/books/add', book)
             .then(function (response) {
                 dispatch({
                     type: 'ADD_BOOK',

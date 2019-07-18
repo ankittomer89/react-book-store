@@ -4,6 +4,7 @@ import { addBooksAction } from '../action/index';
 
 
 function mapStateToProps(state) {
+    console.log(state.data)
     return {
         BooksList: state.data
     };
@@ -23,6 +24,7 @@ class add extends Component {
             category: null,
             price: null,
             description: null,
+            redirect:''
         };
     }
     handleChange = (event) => {
@@ -40,15 +42,28 @@ class add extends Component {
             price,
             description
         }
-        this.props.addBookData(inputData)
+        this.props.addBookData(inputData);
+        if(this.props.BooksList.length > 0) {
+            this.setState({ //the error happens here
+                redirect : this.props.BooksList.length > 0 ? true : false
+            });
+        }
     }
 
+   // componentWillReceiveProps(nextProps){
+        // if(nextProps.BooksList.length > 0) {
+        //     this.setState({ //the error happens here
+        //         redirect : nextProps.BooksList.length > 0 ? true : false
+        //     });
+        // }
+    //}
     render() {
+        console.log('===========>',this.state.redirect)
         return (
             <div className="container-fluid">
                 <div className="container">
                     <div className="formBox">
-                        <form onSubmit={this.handleaddBookData}>
+                        <form onSubmit={e => this.handleaddBookData(e)}>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <h1>Add New Book</h1>
