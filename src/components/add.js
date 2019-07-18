@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { addBooksAction } from '../action/index';
 
 
 function mapStateToProps(state) {
-    console.log(state.data)
     return {
         BooksList: state.data
     };
@@ -24,7 +24,7 @@ class add extends Component {
             category: null,
             price: null,
             description: null,
-            redirect:''
+            redirect: ''
         };
     }
     handleChange = (event) => {
@@ -43,84 +43,86 @@ class add extends Component {
             description
         }
         this.props.addBookData(inputData);
-        if(this.props.BooksList.length > 0) {
+        if (this.props.BooksList.length > 0) {
             this.setState({ //the error happens here
-                redirect : this.props.BooksList.length > 0 ? true : false
+                redirect: this.props.BooksList.length > 0 ? true : false
             });
         }
     }
 
-   // componentWillReceiveProps(nextProps){
-        // if(nextProps.BooksList.length > 0) {
-        //     this.setState({ //the error happens here
-        //         redirect : nextProps.BooksList.length > 0 ? true : false
-        //     });
-        // }
-    //}
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.BooksList.length > 0) {
+            this.setState({ //the error happens here
+                redirect: nextProps.BooksList.length > 0 ? true : false
+            });
+        }
+    }
     render() {
-        console.log('===========>',this.state.redirect)
         return (
-            <div className="container-fluid">
-                <div className="container">
-                    <div className="formBox">
-                        <form onSubmit={e => this.handleaddBookData(e)}>
-                            <div className="row">
-                                <div className="col-sm-6">
-                                    <h1>Add New Book</h1>
-                                </div>
-                                <div className="col-sm-6">
-                                    <td><a href='/' className="btn btn-secondary btn-lg float-right" > Book List</a></td>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-sm-6">
-                                    <div className="inputBox ">
-                                        <div className="inputText"></div>
-                                        <input type="text" name="bookName" value={this.state.bookName || ''} placeholder='Book Name'
-                                            onChange={this.handleChange} className="input" />
+            <div>
+                {this.state.redirect ?
+                    <Redirect to="/" /> : <div className="container-fluid">
+                        <div className="container">
+                            <div className="formBox">
+                                <form onSubmit={e => this.handleaddBookData(e)}>
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <h1>Add New Book</h1>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <td><a href='/' className="btn btn-secondary btn-lg float-right" > Book List</a></td>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="inputBox">
-                                        <div className="inputText"></div>
-                                        <input type="text" name="bookAuthor" value={this.state.bookAuthor || ''} onChange={this.handleChange} placeholder='Book Author' className="input" />
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="inputBox ">
+                                                <div className="inputText"></div>
+                                                <input type="text" name="bookName" value={this.state.bookName || ''} placeholder='Book Name'
+                                                    onChange={this.handleChange} className="input" />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="inputBox">
+                                                <div className="inputText"></div>
+                                                <input type="text" name="bookAuthor" value={this.state.bookAuthor || ''} onChange={this.handleChange} placeholder='Book Author' className="input" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-sm-6">
-                                    <div className="inputBox">
-                                        <div className="inputText"></div>
-                                        <input type="text" name="category" value={this.state.category || ''} onChange={this.handleChange} placeholder='Book Category' className="input" />
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="inputBox">
+                                                <div className="inputText"></div>
+                                                <input type="text" name="category" value={this.state.category || ''} onChange={this.handleChange} placeholder='Book Category' className="input" />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="inputBox">
+                                                <div className="inputText"></div>
+                                                <input type="number" name="price" value={this.state.price || ''} onChange={this.handleChange} placeholder='Book Price' className="input" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="inputBox">
-                                        <div className="inputText"></div>
-                                        <input type="number" name="price" value={this.state.price || ''} onChange={this.handleChange} placeholder='Book Price' className="input" />
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="inputBox">
-                                        <div className="inputText"></div>
-                                        <input type="text" name="description" value={this.state.description || ''} onChange={this.handleChange} placeholder='Book Description' className="input" />
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="inputBox">
+                                                <div className="inputText"></div>
+                                                <input type="text" name="description" value={this.state.description || ''} onChange={this.handleChange} placeholder='Book Description' className="input" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <input type="submit" className="button btn btn-dark" value="Submit" />
-                                </div>
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <input type="submit" className="button btn btn-dark" value="Submit" />
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </div>
-        );
+                }
+            </div>);
     }
 }
 

@@ -1,16 +1,26 @@
-const rootReducer = (state = {data:[]}, action) => {
+const rootReducer = (state = {getData:[],bookDeleted:[],bookData:[]}, action) => {
     switch (action.type) {
         case 'BOOK_LIST':
             return {
                 ...state,
-                data: [...state.data,
+                getData: [...state.getData,
                 action.payload]
             }
             case 'ADD_BOOK':
             return {
                 ...state,
-                data: [...state.data,
+                newData: [...state.newData,
                 action.payload]
+            }
+            case 'DELETE_BOOK':
+            return {
+                ...state,
+                bookDeleted: action.payload
+            }
+            case 'GET_BOOK':
+            return {
+                ...state,
+                bookData: action.payload
             }
         default:
             return state;

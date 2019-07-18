@@ -19,6 +19,7 @@ function App() {
         </form>
       </nav>
       <Route path='/' exact component={List}/>
+      <Route path='/list' exact component={List}/>
       <Route path='/edit/:_id' exact component={Edit}/>
       <Route path='/add' exact component={Add}/>
     </div>
