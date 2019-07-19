@@ -5,8 +5,9 @@ import { addBooksAction } from '../action/index';
 
 
 function mapStateToProps(state) {
+    console.log(state);
     return {
-        BooksList: state.data
+        BooksList: state.getData
     };
 }
 
@@ -43,14 +44,16 @@ class add extends Component {
             description
         }
         this.props.addBookData(inputData);
-        if (this.props.BooksList.length > 0) {
-            this.setState({ //the error happens here
-                redirect: this.props.BooksList.length > 0 ? true : false
-            });
-        }
+        
+        // if (this.props.BooksList.length > 0) {
+        //     this.setState({ //the error happens here
+        //         redirect: this.props.BooksList.length > 0 ? true : false
+        //     });
+        // }
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (nextProps.BooksList.length > 0) {
             this.setState({ //the error happens here
                 redirect: nextProps.BooksList.length > 0 ? true : false

@@ -4,13 +4,14 @@ import { getThisBookAction, addThisBookDataAction } from '../action/index';
 
 
 function mapStateToProps(state) {
+    //console.log(state.bookData)
     return {
         BooksData: state.bookData
     };
 }
 const mapDispatchToProps = dispatch => ({
     getThisBook: (_id) => dispatch(getThisBookAction(_id)),
-    addThisBookData: (bookData) => dispatch(addThisBookDataAction(bookData))
+    addThisBookData: (bookData, id) => dispatch(addThisBookDataAction(bookData, id))
 });
 
 class edit extends Component {
@@ -25,16 +26,16 @@ class edit extends Component {
             description: null,
         }
     }
-    handleChangeEditBook = (event) => { 
-        event.preventDefault();
-        console.log('====>>event.target.value', event.target.value)
-        this.setState({ [event.target.name]: event.target.value });
+    handleChangeEditBook(event){ 
+        //event.preventDefault();
+        console.log('====>>event.target.value', event.target.value, event.target.name)
+        this.setState({ books: {[event.target.name]: event.target.value }});
     }
 
-    handleEditdBookData = (event) => { alert('ldd')
+    handleEditdBookData = (event) => {
         event.preventDefault();
         const { _id } = this.props.match.params;
-        const { bookName, bookAuthor, category, price, description } = this.state;
+        const { bookName, bookAuthor, category, price, description } = this.state.books;
         let inputData = {
             bookName,
             bookAuthor,
@@ -42,6 +43,7 @@ class edit extends Component {
             price,
             description
         }
+        console.log("edited=======", this.state.books);
         this.props.addThisBookData(inputData, _id)
     }
     async componentDidMount() {
@@ -76,13 +78,13 @@ class edit extends Component {
                                     <div className="col-sm-6">
                                         <div className="inputBox ">
                                             <div className="inputText"></div>
-                                            <input type="text" name="bookName" placeholder='Book Name' value={this.state.books.bookName } onChange={e => this.handleChangeEditBook(e)} className="input" />
+                                            <input type="text" name="bookName" placeholder='Book Name' value={this.state.books.bookName} onChange={e => this.handleChangeEditBook(e)} className="input" />
                                         </div>
                                     </div>
                                     <div className="col-sm-6">
                                         <div className="inputBox">
                                             <div className="inputText"></div>
-                                            <input type="text" name="bookAuthor"  placeholder='Book Author' value={this.state.books.bookAuthor } onChange={this.handleChangeEditBook} className="input" />
+                                            <input type="text" name="bookAuthor"  placeholder='Book Author' value={this.state.books.bookAuthor } onChange={e => this.handleChangeEditBook(e)} className="input" />
                                         </div>
                                     </div>
                                 </div>
@@ -90,13 +92,13 @@ class edit extends Component {
                                     <div className="col-sm-6">
                                         <div className="inputBox">
                                             <div className="inputText"></div>
-                                            <input type="text" name="category" placeholder='Book Category' value={this.state.books.category } onChange={this.handleChangeEditBook} className="input" />
+                                            <input type="text" name="category" placeholder='Book Category' value={this.state.books.category } onChange={e => this.handleChangeEditBook(e)} className="input" />
                                         </div>
                                     </div>
                                     <div className="col-sm-6">
                                         <div className="inputBox">
                                             <div className="inputText"></div>
-                                            <input type="number" name="price" placeholder='Book Price' value={this.state.books.price} onChange={this.handleChangeEditBook} className="input" />
+                                            <input type="number" name="price" placeholder='Book Price' value={this.state.books.price} onChange={e => this.handleChangeEditBook(e)} className="input" />
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +107,7 @@ class edit extends Component {
                                     <div className="col-sm-12">
                                         <div className="inputBox">
                                             <div className="inputText"></div>
-                                            <input type="text" name="description" value={this.state.books.description || ''} placeholder='Book Description' onChange={this.handleChangeEditBook} className="input" />
+                                            <input type="text" name="description" value={this.state.books.description} placeholder='Book Description' onChange={e => this.handleChangeEditBook(e)} className="input" />
                                         </div>
                                     </div>
                                 </div>

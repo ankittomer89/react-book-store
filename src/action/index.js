@@ -12,7 +12,7 @@ export function listBooksAction() {
 }
 
 export function addBooksAction(book) {
-
+    
     return async dispatch => {
         await axios.post('/books/add', book)
             .then(function (response) {
@@ -69,23 +69,23 @@ export function getThisBookAction(bookId) {
     }
 }
 
-export function addThisBookDataAction(bookData) {
-console.log('====action================>',bookData)
+export function addThisBookDataAction(bookData, id) {
+console.log('====action================>',bookData, id)
     return dispatch => {
-        // axios.post('/books/update/' + _id, book)
-        //     .then(function (response) {
-        //         console.log('API RESPONSE' + response);
-        //         dispatch({
-        //             type: 'UPDATE_BOOK',
-        //             payload: response
-        //         })
-        //     })
-        //     .catch(function (error) {
-        //         console.log("error", error);
-        //         dispatch({
-        //             type: 'UPDATE_BOOK_REJECTED',
-        //             payload: error
-        //         })
-        //     });
+        axios.post('/books/update/' + id, bookData)
+            .then(function (response) {
+                console.log('API RESPONSE' + response);
+                dispatch({
+                    type: 'UPDATE_BOOK',
+                    payload: response
+                })
+            })
+            .catch(function (error) {
+                console.log("error", error);
+                dispatch({
+                    type: 'UPDATE_BOOK_REJECTED',
+                    payload: error
+                })
+            });
     }
 }

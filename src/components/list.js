@@ -7,8 +7,8 @@ import { listBooksAction, deleteBooksAction } from '../action/index';
 
 function mapStateToProps(state) {
     return {
-        BooksList : state.getData,
-        BookDeleted : state.bookDeleted
+        BooksList : state.bookData,
+        //BookDeleted : state.bookDeleted
     };
 }
 
@@ -17,30 +17,35 @@ const mapDispatchToProps = dispatch => ({
     deleteBooks: (_id) => dispatch(deleteBooksAction(_id))
 });
 
-let booksItem;
+let booksItems;
 class list extends Component {
     constructor(props) {
         super(props);
         this.state = {
             books: '',
+            bookList: []
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.log('hit me ',this.props.BookDeleted)
-        this.setState({books: this.props.BookDeleted })
+        console.log(nextProps.BooksList);
+        console.log(this.props.BooksList);
+        // console.log('hit me ',this.props.BookDeleted)
+        //this.setState({bookList: nextProps.BooksList })
     }
 
     componentDidMount() {
+        
         this.props.listBooks();
+        console.log(this.props.BooksList);
+        this.setState({bookList: this.props.BooksList});
     }
     deleteBook = (_id) => {
         this.props.deleteBooks(_id);
     }
 
     render() {
-        booksItem = this.props.BooksList.map((bookItems = []) => {
-            if(bookItems.length !== undefined){
-            return bookItems.map((book, index) => {
+        console.log(this.state.bookList);
+        booksItems = this.state.bookList.map((book, index) => {
                 return (
                     <tr key={index}>
                         <td data-th="Product">
@@ -56,13 +61,12 @@ class list extends Component {
                         <td data-th="Price">{book.price} &#x20b9;</td>
                         <td className="actions" data-th="">
                             <a href={`/edit/${book._id}`} className="btn btn-primary btn-sm"><FontAwesomeIcon icon={faEdit} /> </a>
-                            <button className="btn btn-danger btn-sm" onClick={() => this.deleteBook(book._id)} ><FontAwesomeIcon icon={faTrash} /></button>
+                            <button className="btn btn-danger btn-sm" onClick={(e) => this.deleteBook(book._id)} ><FontAwesomeIcon icon={faTrash} /></button>
                         </td>
                     </tr>
                 )
+        
             })
-        }
-        });
         return (
             <div className="container">
                 <table id="cart" className="table table-hover table-condensed">
@@ -76,7 +80,7 @@ class list extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {booksItem}
+                        {booksItems}
                     </tbody>
                     <tfoot>
                         <tr>
@@ -89,6 +93,7 @@ class list extends Component {
         );
     }
 }
+
 
 export default connect(
     mapStateToProps,
