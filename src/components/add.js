@@ -1,135 +1,141 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { addBooksAction } from '../action/index';
 
-
-function mapStateToProps(state) {
-    console.log(state);
-    return {
-        BooksList: state.getData
+class AddBook extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookName: '',
+      bookAuthor: '',
+      category: '',
+      price: '',
+      description: ''
     };
-}
+  }
 
-const mapDispatchToProps = (dispatch, books) => ({
-    addBookData: (books) => dispatch(addBooksAction(books))
-});
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
+  handleaddBookData = event => {
+    event.preventDefault();
+    this.props.addBookData(this.state, this.props.history);
+  };
 
-class add extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            bookName: null,
-            bookAuthor: null,
-            category: null,
-            price: null,
-            description: null,
-            redirect: ''
-        };
-    }
-    handleChange = (event) => {
-        event.preventDefault();
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleaddBookData = (event) => {
-        event.preventDefault();
-        const { bookName, bookAuthor, category, price, description } = this.state;
-        let inputData = {
-            bookName,
-            bookAuthor,
-            category,
-            price,
-            description
-        }
-        this.props.addBookData(inputData);
-        
-        // if (this.props.BooksList.length > 0) {
-        //     this.setState({ //the error happens here
-        //         redirect: this.props.BooksList.length > 0 ? true : false
-        //     });
-        // }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-        if (nextProps.BooksList.length > 0) {
-            this.setState({ //the error happens here
-                redirect: nextProps.BooksList.length > 0 ? true : false
-            });
-        }
-    }
-    render() {
-        return (
-            <div>
-                {this.state.redirect ?
-                    <Redirect to="/" /> : <div className="container-fluid">
-                        <div className="container">
-                            <div className="formBox">
-                                <form onSubmit={e => this.handleaddBookData(e)}>
-                                    <div className="row">
-                                        <div className="col-sm-6">
-                                            <h1>Add New Book</h1>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <td><a href='/' className="btn btn-secondary btn-lg float-right" > Book List</a></td>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-sm-6">
-                                            <div className="inputBox ">
-                                                <div className="inputText"></div>
-                                                <input type="text" name="bookName" value={this.state.bookName || ''} placeholder='Book Name'
-                                                    onChange={this.handleChange} className="input" />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <div className="inputBox">
-                                                <div className="inputText"></div>
-                                                <input type="text" name="bookAuthor" value={this.state.bookAuthor || ''} onChange={this.handleChange} placeholder='Book Author' className="input" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-sm-6">
-                                            <div className="inputBox">
-                                                <div className="inputText"></div>
-                                                <input type="text" name="category" value={this.state.category || ''} onChange={this.handleChange} placeholder='Book Category' className="input" />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <div className="inputBox">
-                                                <div className="inputText"></div>
-                                                <input type="number" name="price" value={this.state.price || ''} onChange={this.handleChange} placeholder='Book Price' className="input" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-sm-12">
-                                            <div className="inputBox">
-                                                <div className="inputText"></div>
-                                                <input type="text" name="description" value={this.state.description || ''} onChange={this.handleChange} placeholder='Book Description' className="input" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-sm-12">
-                                            <input type="submit" className="button btn btn-dark" value="Submit" />
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+  render() {
+    const { bookName, bookAuthor, category, price, description } = this.state;
+    return (
+      <div>
+        <div className="container-fluid">
+          <div className="container">
+            <div className="formBox">
+              <form onSubmit={this.handleaddBookData}>
+                <div className="text-center">
+                    <h1>Add New Book</h1>
+                </div>
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="form-group ">
+                      <div className="inputText" />
+                      <input
+                        type="text"
+                        name="bookName"
+                        value={bookName}
+                        placeholder="Book Name"
+                        onChange={this.handleChange}
+                        className="form-control"
+                        required
+                      />
                     </div>
-                }
-            </div>);
-    }
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <div className="inputText" />
+                      <input
+                        type="text"
+                        name="bookAuthor"
+                        value={bookAuthor}
+                        onChange={this.handleChange}
+                        placeholder="Book Author"
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <div className="inputText" />
+                      <input
+                        type="text"
+                        name="category"
+                        value={category}
+                        onChange={this.handleChange}
+                        placeholder="Book Category"
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <div className="inputText" />
+                      <input
+                        type="number"
+                        name="price"
+                        value={price}
+                        onChange={this.handleChange}
+                        placeholder="Book Price"
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="form-group">
+                      <div className="inputText" />
+                      <textarea
+                        name="description"
+                        value={description}
+                        onChange={this.handleChange}
+                        placeholder="Book Description"
+                        className="form-control"
+                        required
+                      />
+
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-12">
+                    <input
+                      type="submit"
+                      className="button btn btn-dark"
+                      value="Submit"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
+
+const mapDispatchToProps = {
+  addBookData: addBooksAction
+};
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(add);
+  null,
+  mapDispatchToProps
+)(AddBook);
