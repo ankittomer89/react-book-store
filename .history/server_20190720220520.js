@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 /**bodyParser.json(options)
  * Parses the text as JSON and exposes the resulting object on req.body.
  */

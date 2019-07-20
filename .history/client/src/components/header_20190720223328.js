@@ -23,24 +23,22 @@ const Header = ({ location }) => {
         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
           Search
         </button>
-        {location.pathname === '/add' ? 
+        {location.pathname === '/a' ? (
           <Link to="/" className="btn btn-secondary ml-5">
             Book List
-          </Link>
-        : <div>
-            {location.pathname === '/' ?
-              <Link to="/add" className="btn ml-5 btn-secondary">
-                Add Book
-          </Link> :
-              <div>
-                <Link to="/" className="btn btn-secondary ml-5">
-                  Book List
-          </Link>
-                <Link to="/add" className="btn ml-5 btn-secondary">
-                  Add Book
-          </Link>
-              </div>}
-          </div>
+          </Link> ||
+          <Link to="/add" className="btn ml-5 btn-secondary">
+          Add Book
+        </Link>
+        ) : <div>
+          {location.pathname === '/' ?
+          (<Link to="/add" className="btn ml-5 btn-secondary">
+            Add Book
+          </Link>) :
+          (<Link to="/" className="btn btn-secondary ml-5">
+          Book List
+          </Link>)}
+        </div>
         }
       </form>
     </nav>

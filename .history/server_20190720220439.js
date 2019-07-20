@@ -10,16 +10,22 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 /**bodyParser.json(options)
  * Parses the text as JSON and exposes the resulting object on req.body.
  */
 app.use(bodyParser.json());
+
+
+
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+
 
 app.get('/books', function (req, res) {
   let jsonData = JSON.parse(fs.readFileSync('books.json', 'utf-8'))
@@ -31,11 +37,14 @@ app.post('/books/add', function (req, res) {
   const data = fs.readFileSync('books.json');
   const json = JSON.parse(data);
   if (!!json && json.length >= 1) {
+
     pushdata._id = parseInt(json[json.length - 1]._id + 1)
+
   }
   else {
     pushdata._id = 1;
   }
+
   json.push(pushdata);
   const jsonString = JSON.stringify(json)
   fs.writeFile('books.json', jsonString, err => {
@@ -48,14 +57,18 @@ app.post('/books/add', function (req, res) {
   })
 })
 
+
 app.put('/books/update/:_id', function (req, res) {
+
   const _id = parseInt(req.params._id);
   const req_data = req.body;
   req_data._id = _id
   const data = fs.readFileSync('books.json');
   var jsonarray = JSON.parse(data);
   for (var i = 0; i < jsonarray.length; i++) {
+
     if (jsonarray[i]._id === parseInt(_id)) {
+
       jsonarray[i] = req_data;
     }
   }

@@ -32,7 +32,7 @@ export function addBooksAction(book, history) {
 export function deleteBooksAction(bookId) {
   return dispatch => {
     axios
-      .delete('/books/delete/' + bookId)
+      .get('/books/delete/' + bookId)
       .then(function() {
         dispatch(listBooksAction());
       })
@@ -65,9 +65,10 @@ export function getThisBookAction(bookId) {
 }
 
 export function editThisBookDataAction({_id, ...bookData}, history) {
+  console.log('====action================>', bookData, _id);
   return dispatch => {
     axios
-      .put('/books/update/' + _id, bookData)
+      .post('/books/update/' + _id, bookData)
       .then(function(response) {
         console.log('API RESPONSE' + response);
         dispatch(listBooksAction())

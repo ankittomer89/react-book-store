@@ -27,7 +27,7 @@ const Header = ({ location }) => {
           <Link to="/" className="btn btn-secondary ml-5">
             Book List
           </Link>
-        : <div>
+         : <div>
             {location.pathname === '/' ?
               <Link to="/add" className="btn ml-5 btn-secondary">
                 Add Book

@@ -32,7 +32,7 @@ export function addBooksAction(book, history) {
 export function deleteBooksAction(bookId) {
   return dispatch => {
     axios
-      .delete('/books/delete/' + bookId)
+      .get('/books/delete/' + bookId)
       .then(function() {
         dispatch(listBooksAction());
       })
