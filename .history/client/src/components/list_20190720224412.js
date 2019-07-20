@@ -8,7 +8,7 @@ import { listBooksAction, deleteBooksAction } from '../action/index';
 const List = ({ bookList, listBooks, deleteBooks }) => {
   useEffect(() => {
     listBooks();
-  });
+  }, );
   return (
     <div className="container">
       <table id="cart" className="table table-striped table-bordered mt-5 table-hover table-small">
