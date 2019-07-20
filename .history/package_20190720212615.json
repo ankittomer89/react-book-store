@@ -9,8 +9,8 @@
   },
   "devDependencies": {},
   "scripts": {
+    ""
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client-install": "cd client && npm install",
     "start": "node server.js",
     "server": "node server",
     "client": "npm start --prefix client",
